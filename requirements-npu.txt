@@ -1,5 +1,5 @@
-torch==2.5.1
-torch_npu==2.5.1
+# torch==2.5.1
+# torch_npu==2.5.1
 accelerate
 datasets
 deepspeed==0.16.7
