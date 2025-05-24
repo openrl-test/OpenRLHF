@@ -125,7 +125,7 @@ def create_vllm_engines(
 ):
     import vllm
 
-    assert vllm.__version__ >= "0.8.1", "OpenRLHF only supports vllm >= 0.8.1"
+    # assert vllm.__version__ >= "0.8.1", "OpenRLHF only supports vllm >= 0.8.1"
 
     vllm_engines = []
     noset_visible_devices = ray_noset_visible_devices(ray.get(get_all_env_variables.remote()))
@@ -140,7 +140,7 @@ def create_vllm_engines(
         # 2 instances on the same GPUs.
         num_gpus = 0.2
 
-    if not use_hybrid_engine and ACCELERATOR_TYPE == "GPU":
+    if not use_hybrid_engine and (ACCELERATOR_TYPE == "GPU" or ACCELERATOR_TYPE == "NPU"):
         # Create a big placement group to ensure that all engines are packed
         bundles = [{ACCELERATOR_TYPE: 1, "CPU": 1} for _ in range(num_engines * tensor_parallel_size)]
         shared_pg = placement_group(bundles, strategy="PACK")
